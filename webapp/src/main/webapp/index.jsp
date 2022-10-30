@@ -1,11 +1,11 @@
 <html>
-<head><title>First JSP</title></head>
+<head><title>First JSP (rev.2)</title></head>
 <body>
   <%
     double num = Math.random();
     if (num > 0.95) {
   %>
-      <h2>You'll have a luck day!</h2><p>(<%= num %>)</p>
+      <h2>You'll have a luck day! (rev.2)</h2><p>(<%= num %>)</p>
   <%
     } else {
   %>
