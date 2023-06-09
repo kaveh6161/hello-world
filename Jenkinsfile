@@ -24,7 +24,13 @@ pipeline {
                     sh 'mvn clean install'
                 }
             }
-            
+        }
+        post {
+            success {
+                // Archive the Artifacts
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+            }
         }
     }
   }
