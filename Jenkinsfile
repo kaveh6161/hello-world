@@ -18,10 +18,13 @@ pipeline {
     }
     stage('Build') {
         steps {
-            // Build the project with Maven
-            script{
-                sh 'mvn clean install'
+            container('maven') {
+                // Build the project with Maven
+                script{
+                    sh 'mvn clean install'
+                }
             }
+            
         }
     }
   }
