@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: maven
+spec:
+  containers:
+  - name: maven
+    image: maven:3.9.2-eclipse-temurin-11
+    command:
+    - /bin/cat
+    tty: true
+  restartPolicy: Never
