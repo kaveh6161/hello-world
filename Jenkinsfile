@@ -19,11 +19,13 @@ pipeline {
     stage('Build') {
         steps {
             // Build the project with Maven
-            sh 'mvn clean install'
+            script{
+                sh 'mvn clean install'
+            }
         }
     }
   }
-  
+
   /*
   post {
     failure {
