@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
   - name: maven
-    image: maven:3.9.2-eclipse-temurin-11
+    image: maven:3.6.2-jdk-11
     command:
     - /bin/cat
     tty: true
