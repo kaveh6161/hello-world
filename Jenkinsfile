@@ -29,7 +29,6 @@ pipeline {
     }
   }
 
-  /*
   post {
     failure {
         // If the pipeline fails, send an email
@@ -38,5 +37,4 @@ pipeline {
                 body: "Something is wrong with ${env.BUILD_URL}"
     }
   }
-  */ 
 }
