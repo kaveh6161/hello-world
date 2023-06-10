@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: maven
+  name: maven-project
 spec:
   containers:
   - name: maven
@@ -9,24 +9,34 @@ spec:
     command:
     - /bin/cat
     tty: true
+    volumeMounts:
+    - name: shared-data
+      mountPath: /home/jenkins/shared
   - name: kubectl
     image: alpine/k8s:1.27.1
     command:
     - /bin/cat
-    tty: true    
+    tty: true
+    volumeMounts:
+    - name: shared-data
+      mountPath: /home/jenkins/shared
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     command:
     - /busybox/cat
     tty: true
     volumeMounts:
-      - name: kaniko-secret
-        mountPath: /kaniko/.docker
+    - name: kaniko-secret
+      mountPath: /kaniko/.docker
+    - name: shared-data
+      mountPath: /home/jenkins/shared
   restartPolicy: Never
   volumes:
-    - name: kaniko-secret
-      secret:
-        secretName: docker-regcred
-        items:
-          - key: .dockerconfigjson
-            path: config.json
+  - name: kaniko-secret
+    secret:
+      secretName: docker-regcred
+      items:
+      - key: .dockerconfigjson
+        path: config.json
+  - name: shared-data
+    emptyDir: {}

@@ -23,6 +23,7 @@ pipeline {
                 // Build the project with Maven
                 script{
                     sh 'mvn clean install'
+                    sh 'cp target/*.war /home/jenkins/shared'
                 }
             }
         }
@@ -38,7 +39,7 @@ pipeline {
       steps {
         container('kaniko') {
           // List the contents of the current directory
-          sh 'ls -l'
+          sh 'ls -l /home/jenkins/shared'
           // Build the docker image with tag based on the Jenkins build job number
           script {
             sh '''
