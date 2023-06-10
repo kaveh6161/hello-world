@@ -26,6 +26,7 @@ pipeline {
                     //sh 'pwd'
                     //sh 'ls -l webapp/target'
                     sh 'cp webapp/target/webapp.war /home/jenkins/shared'
+                    sh 'cp Dockerfile /home/jenkins/shared'  // Copy the Dockerfile to the shared directory too, in order to simplify the kaniko command
                 }
             }
         }
@@ -45,8 +46,8 @@ pipeline {
           // Build the docker image with tag based on the Jenkins build job number
           script {
             sh '''
-            /kaniko/executor --dockerfile `pwd`/Dockerfile \
-                             --context `pwd` \
+            /kaniko/executor --dockerfile /home/jenkins/shared/Dockerfile \
+                             --context /home/jenkins/shared \
                              --destination=kaveh61/regapp:${BUILD_NUMBER}
             '''
           }
