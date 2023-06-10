@@ -24,7 +24,7 @@ pipeline {
                 script{
                     sh 'mvn clean install'
                     sh 'pwd'
-                    sh 'ls -l webapp'
+                    sh 'ls -l webapp/target'
                     sh 'cp **/*.war /home/jenkins/shared'
                 }
             }
