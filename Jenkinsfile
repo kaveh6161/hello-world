@@ -6,17 +6,18 @@ pipeline {
 
   agent {
     kubernetes {
-      yamlFile 'app-builder.yaml'
+      yamlFile 'builder.yaml'
     }
   }
   stages {
-    stage('Checkout') {
+    stage('Git Checkout') {
         steps {
             // Checkout the code from the GitHub repository
             git 'https://github.com/kaveh6161/hello-world.git'
         }
     }
-    stage('Build') {
+
+    stage('App Build') {
         steps {
             container('maven') {
                 // Build the project with Maven
@@ -28,10 +29,38 @@ pipeline {
         post {
             success {
                 // Archive the Artifacts
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
             }
         }
+    }
+
+    stage('Kaniko Build & Push Image') {
+      steps {
+        container('kaniko') {
+          // List the contents of the current directory
+          sh 'ls -l'
+          // Build the docker image with tag based on the Jenkins build job number
+          script {
+            sh '''
+            /kaniko/executor --dockerfile `pwd`/Dockerfile \
+                             --context `pwd` \
+                             --destination=kaveh61/regapp:${BUILD_NUMBER}
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Deploy App to Kubernetes') {     
+      steps {
+        container('kubectl') {
+          // Deploy the web app to my Home LAB k8s cluster
+          withCredentials([file(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG')]) {
+            sh 'sed -i "s/<TAG>/${BUILD_NUMBER}/" regappDeploy.yml'
+            sh 'kubectl apply -f regappDeploy.yml'
+          }
+        }
+      }
     }
   }
 
