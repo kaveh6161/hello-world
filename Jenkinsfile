@@ -25,7 +25,7 @@ pipeline {
                     sh 'mvn clean install'
                     sh 'pwd'
                     sh 'ls -l'
-                    // sh 'cp target/*.war /home/jenkins/shared'
+                    sh 'cp **/*.war /home/jenkins/shared'
                 }
             }
         }
