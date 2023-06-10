@@ -23,7 +23,8 @@ pipeline {
                 // Build the project with Maven
                 script{
                     sh 'mvn clean install'
-                    sh 'ls -l target'
+                    sh 'pwd'
+                    sh 'ls -l'
                     // sh 'cp target/*.war /home/jenkins/shared'
                 }
             }
