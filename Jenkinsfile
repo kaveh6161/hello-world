@@ -23,9 +23,9 @@ pipeline {
                 // Build the project with Maven
                 script{
                     sh 'mvn clean install'
-                    sh 'pwd'
-                    sh 'ls -l webapp/target'
-                    sh 'cp **/*.war /home/jenkins/shared'
+                    //sh 'pwd'
+                    //sh 'ls -l webapp/target'
+                    sh 'cp webapp/target/webapp.war /home/jenkins/shared'
                 }
             }
         }
