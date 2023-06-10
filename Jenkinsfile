@@ -13,7 +13,7 @@ pipeline {
     stage('Git Checkout') {
         steps {
             // Checkout the code from the GitHub repository
-            git 'https://github.com/kaveh6161/hello-world.git'
+            git branch: 'kubernetes', url: 'https://github.com/kaveh6161/hello-world.git'
         }
     }
 
